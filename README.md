@@ -1,0 +1,4 @@
+# Instalaciones
+
+- React Bootstrap
+- Axios
