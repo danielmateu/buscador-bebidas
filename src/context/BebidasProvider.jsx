@@ -8,6 +8,8 @@ const BebidasProvider = ({ children }) => {
 
     const [bebidas, setBebidas] = useState([]);
 
+    const [modal, setModal] = useState(false);
+
     const consultarBebida = async datos => {
         try {
             const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${datos.nombre}&c=${datos.categoria}`;
@@ -19,11 +21,17 @@ const BebidasProvider = ({ children }) => {
         }
     }
 
+    const handleModalClick = () => {
+        setModal(!modal)
+    }
+
     return (
         <BebidasContext.Provider
             value={{
                 consultarBebida,
                 bebidas,
+                handleModalClick,
+                modal
             }}
         >
             {children}
