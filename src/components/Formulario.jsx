@@ -1,13 +1,38 @@
-import { Button, Col, Form, Row } from "react-bootstrap"
+import { useState } from "react";
+import { Alert, Button, Col, Form, Row } from "react-bootstrap"
 import useCategorias from "../hooks/useCategorias"
 
 
 export const Formulario = () => {
 
+
+    const [busqueda, setBusqueda] = useState({
+        nombre: '',
+        categoria: ''
+    })
+
+    const [alerta, setAlerta] = useState('')
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        if(Object.values(busqueda).includes('')){
+            setAlerta('Todos los campos son obligatorios');
+            return
+        }
+
+        setAlerta('')
+    }
+
     const {categorias} = useCategorias();
 
     return (
-        <Form>
+        <Form
+            onSubmit={handleSubmit}
+        >
+            {
+                alerta && <Alert variant="danger" className="text-center">{alerta}</Alert>
+            }
             <Row>
                 <Col md={6}>
                     <Form.Group className="mb-3">
@@ -16,7 +41,14 @@ export const Formulario = () => {
                             id="nombre"
                             type="text"
                             placeholder="Ej: Tequila, Vodka, etc"
-                            name="nombre"></Form.Control>
+                            name="nombre"
+                            value={busqueda.nombre}
+                            onChange={e => setBusqueda({
+                                ...busqueda,
+                                [e.target.name] : e.target.value
+                            })}
+                        >
+                        </Form.Control>
                     </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -24,7 +56,13 @@ export const Formulario = () => {
                         <Form.Label>Categoria Bebida</Form.Label>
                         <Form.Select
                             id="categoria"
-                            name="categoria">
+                            name="categoria"
+                            value={busqueda.categoria}
+                            onChange={e => setBusqueda({
+                                ...busqueda,
+                                [e.target.name] : e.target.value
+                            })}    
+                        >
                                 <option value="">--Selecciona Categoria--</option>
                                 {
                                     categorias.map(categoria => (
@@ -45,6 +83,7 @@ export const Formulario = () => {
                     <Button
                         variant='danger'
                         className="w-100"
+                        type="submit"
                     >
                         Buscar Bebidas
                     </Button>
