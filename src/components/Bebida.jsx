@@ -5,7 +5,7 @@ import useBebidas from "../hooks/useBebidas"
 
 export const Bebida = ({bebida}) => {
 
-    const {handleModalClick} = useBebidas()
+    const {handleModalClick, handleBebidaIdClick} = useBebidas()
     return (
         <Col 
         md={6} lg={3}
@@ -25,6 +25,7 @@ export const Bebida = ({bebida}) => {
                         variant="info"
                         onClick={() => {
                             handleModalClick()
+                            handleBebidaIdClick(bebida.idDrink)
                         }}
                     >Ver receta</Button>
                 </Card.Body>
